@@ -30,7 +30,7 @@ export const mockProducts: Product[] = [
   {
     id: 3,
     name: "Lọc gió động cơ Air Filter – Honda HRV, City Jazz (17220-5R0-008)",
-    image: "/image/AirFilter–HondaCivicCRV(17220-5BA-A00).jpg",
+    image: "/image/air_filter.png",
     price: 270000,
     originalPrice: 320000,
     discount: 16,

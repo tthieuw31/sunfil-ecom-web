@@ -1,19 +1,30 @@
 import { useEffect } from "react";
 
 export function useInfiniteScroll(
-  loaderRef: React.RefObject<HTMLDivElement>,
+  loaderRef: React.RefObject<HTMLElement>,
   callback: () => void
 ) {
   useEffect(() => {
-    const handleScroll = () => {
-      if (!loaderRef.current) return;
-      const rect = loaderRef.current.getBoundingClientRect();
-      if (rect.top < window.innerHeight) {
-        callback();
-      }
-    };
+    if (!loaderRef.current) return;
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          callback();
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1.0,
+      }
+    );
+
+    observer.observe(loaderRef.current);
+
+    return () => {
+      if (loaderRef.current) observer.unobserve(loaderRef.current);
+    };
   }, [loaderRef, callback]);
 }

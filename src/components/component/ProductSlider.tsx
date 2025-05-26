@@ -4,79 +4,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";
 import ProductCard from "./ProductCard";
+import { mockProducts } from "@/app/api/mockProducts_full";
 
-const products = [
-  {
-    id: 1,
-    name: "Lọc gió động cơ Air Filter – Chevrolet Colorado...",
-    image: "/image/oil_filter.png",
-    price: 299000,
-    originalPrice: 329000,
-    discount: 10,
-    hot: true,
-    type: "full",
-  },
-  {
-    id: 2,
-    name: "Lọc gió động cơ Air Filter – Chevrolet Colorado...",
-    image: "/image/oil_filter.png",
-    price: 299000,
-    originalPrice: 329000,
-    discount: 10,
-    hot: true,
-    type: "full",
-  },
-  {
-    id: 3,
-    name: "Lọc gió động cơ Air Filter – Chevrolet Colorado...",
-    image: "/image/oil_filter.png",
-    price: 299000,
-    originalPrice: 329000,
-    discount: 10,
-    hot: true,
-    type: "full",
-  },
-  {
-    id: 4,
-    name: "Lọc gió động cơ Air Filter – Chevrolet Colorado...",
-    image: "/image/oil_filter.png",
-    price: 299000,
-    originalPrice: 329000,
-    discount: 10,
-    hot: true,
-    type: "full",
-  },
-  {
-    id: 5,
-    name: "Lọc gió động cơ Air Filter – Chevrolet Colorado...",
-    image: "/image/oil_filter.png",
-    price: 299000,
-    originalPrice: 329000,
-    discount: 10,
-    hot: true,
-    type: "full",
-  },
-  {
-    id: 6,
-    name: "Lọc gió động cơ Air Filter – Chevrolet Colorado...",
-    image: "/image/oil_filter.png",
-    price: 299000,
-    originalPrice: 329000,
-    discount: 10,
-    hot: true,
-    type: "full",
-  },
-  {
-    id: 7,
-    name: "Lọc gió động cơ Air Filter – Chevrolet Colorado...",
-    image: "/image/oil_filter.png",
-    price: 299000,
-    originalPrice: 329000,
-    discount: 10,
-    hot: true,
-    type: "full",
-  },
-];
 
 const ProductSlider = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -101,7 +30,7 @@ const ProductSlider = () => {
       </button>
 
       <div ref={scrollRef} className="flex overflow-x-auto no-scrollbar gap-4">
-        {products.map((product) => (
+        {mockProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>

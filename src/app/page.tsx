@@ -3,7 +3,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ProductFilter } from "@/types/product";
-import { Product } from "@/types/product";
 
 import Breadcrumb from "@/components/component/Breadcrumb";
 import BackToTopButton from "@/components/component/button/BackToTopButton";
@@ -13,11 +12,11 @@ import NavBar from "@/components/component/NavBar";
 import ProductListing from "@/components/component/ProductListing";
 import ServiceHighlights from "@/components/layout/ServiceHighlights";
 import Footer from "@/components/layout/Footer";
-import { ArrowRight } from "lucide-react";
 import { mockProducts } from "./api/mockProducts_full";
-import { filterProducts } from "@/utils/filterProducts";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import LocationSection from "@/components/layout/LocationSection";
+import { processProducts } from "@/utils/processProducts";
+import InfiniteLoader from "@/components/component/InfiniteLoader";
 
 export default function Home() {
   const [filter, setFilter] = useState<ProductFilter>({
@@ -28,25 +27,30 @@ export default function Home() {
     origins: [],
   });
 
+  const [primarySort, setPrimarySort] = useState("relevance");
+  const [priceSort, setPriceSort] = useState<
+    "price-asc" | "price-desc" | "none"
+  >("none");
+
   const [visibleCount, setVisibleCount] = useState(16);
   const loaderRef = useRef<HTMLDivElement>(null!);
 
-  const filteredProducts = useMemo(
-    () => filterProducts(mockProducts, filter),
-    [filter]
-  );
+  const filteredAndSortedProducts = useMemo(() => {
+    return processProducts(mockProducts, filter, primarySort, priceSort);
+  }, [filter, primarySort, priceSort]);
 
   useInfiniteScroll(loaderRef, () => {
     setVisibleCount((prev) =>
-      prev + 16 > filteredProducts.length ? filteredProducts.length : prev + 16
+      Math.min(prev + 16, filteredAndSortedProducts.length)
     );
   });
 
   useEffect(() => {
     setVisibleCount(16);
-  }, [filter]);
+  }, [filter, primarySort, priceSort]);
 
-  const productsToShow = filteredProducts.slice(0, visibleCount);
+  const productsToShow = filteredAndSortedProducts.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredAndSortedProducts.length;
 
   return (
     <div className="w-full">
@@ -65,11 +69,18 @@ export default function Home() {
                 <FilterSidebar filter={filter} setFilter={setFilter} />
               </aside>
               <div className="w-3/4">
-                <ProductListing products={productsToShow} />
+                <ProductListing
+                  products={productsToShow}
+                  primarySort={primarySort}
+                  setPrimarySort={setPrimarySort}
+                  priceSort={priceSort}
+                  setPriceSort={setPriceSort}
+                />
               </div>
             </section>
 
-            <section className="mt-10">
+            <InfiniteLoader loaderRef={loaderRef} hasMore={hasMore} />
+            <section>
               <ServiceHighlights />
             </section>
           </div>

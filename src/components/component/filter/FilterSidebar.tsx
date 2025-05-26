@@ -1,12 +1,10 @@
-"use client";
-
+import FilterSection from "./FilterSection";
+import { ProductFilter } from "@/types/product";
 import {
   brandCategories,
   typeCategories,
 } from "@/app/api/splitProductCategories";
-import FilterSection from "./FilterSection";
-import { useState } from "react";
-import { ProductFilter } from "@/types/product";
+import { originOptions, priceOptions, yearOptions } from "@/types/common";
 
 type Props = {
   filter: ProductFilter;
@@ -14,64 +12,29 @@ type Props = {
 };
 
 const FilterSidebar = ({ filter, setFilter }: Props) => {
-  const priceOptions = [
-    { label: "Dưới 100,000 đ", min: 0, max: 100000 },
-    { label: "100,000 đ – 300,000 đ", min: 100000, max: 300000 },
-    { label: "300,000 đ – 500,000 đ", min: 300000, max: 500000 },
-    { label: "Trên 500,000 đ", min: 500000, max: Infinity },
-  ];
+  type FilterField = Exclude<keyof ProductFilter, "prices">;
 
-  const [selectedPrices, setSelectedPrices] = useState<number[][]>([]);
-
-  const toggleCategory = (name: string) => {
-    setFilter({
-      ...filter,
-      categories: filter.categories.includes(name)
-        ? filter.categories.filter((c) => c !== name)
-        : [...filter.categories, name],
-    });
+  const toggleFilter = <T extends string | number>(
+    field: FilterField,
+    value: T
+  ) => {
+    const currentValues = filter[field] as T[];
+    const newValues = currentValues.includes(value)
+      ? currentValues.filter((v) => v !== value)
+      : [...currentValues, value];
+    setFilter({ ...filter, [field]: newValues });
   };
 
   const togglePrice = (min: number, max: number) => {
     const exists = filter.prices.some(([a, b]) => a === min && b === max);
-    setFilter({
-      ...filter,
-      prices: exists
-        ? filter.prices.filter(([a, b]) => !(a === min && b === max))
-        : [...filter.prices, [min, max]],
-    });
-  };
-
-  const toggleBrand = (name: string) => {
-    setFilter({
-      ...filter,
-      brands: filter.brands.includes(name)
-        ? filter.brands.filter((b) => b !== name)
-        : [...filter.brands, name],
-    });
-  };
-
-  const toggleYear = (year: number) => {
-    setFilter({
-      ...filter,
-      years: filter.years.includes(year)
-        ? filter.years.filter((y) => y !== year)
-        : [...filter.years, year],
-    });
-  };
-
-  const toggleOrigin = (origin: string) => {
-    setFilter({
-      ...filter,
-      origins: filter.origins.includes(origin)
-        ? filter.origins.filter((o) => o !== origin)
-        : [...filter.origins, origin],
-    });
+    const newPrices: [number, number][] = exists
+      ? filter.prices.filter(([a, b]) => !(a === min && b === max))
+      : [...filter.prices, [min, max] as [number, number]];
+    setFilter({ ...filter, prices: newPrices });
   };
 
   return (
     <div className="space-y-6 bg-white py-3 rounded-lg shadow-md">
-      {/* Header */}
       <div className="flex w-full mb-0 p-3 border-b border-[#919EAB33] items-center">
         <img
           src="/image/filter-icon.png"
@@ -83,14 +46,14 @@ const FilterSidebar = ({ filter, setFilter }: Props) => {
 
       <FilterSection title="Danh mục sản phẩm">
         <ul className="space-y-2 text-sm font-medium text-[#1C252E]">
-          {typeCategories.map((category, index) => (
-            <li key={index} className="flex items-center">
+          {typeCategories.map((category) => (
+            <li key={category.name} className="flex items-center">
               <input
                 type="checkbox"
                 className="mr-2"
                 checked={filter.categories.includes(category.name)}
-                onChange={() => toggleCategory(category.name)}
-              />{" "}
+                onChange={() => toggleFilter("categories", category.name)}
+              />
               {category.name}
             </li>
           ))}
@@ -100,20 +63,20 @@ const FilterSidebar = ({ filter, setFilter }: Props) => {
       <FilterSection title="Khoảng giá">
         <div className="grid grid-cols-1 gap-2 mt-3">
           {priceOptions.map(({ label, min, max }) => {
-            const isSelected = selectedPrices.some(
+            const isSelected = filter.prices.some(
               ([a, b]) => a === min && b === max
             );
             return (
               <button
                 key={label}
                 onClick={() => togglePrice(min, max)}
-                className={`w-full border px-4 py-2 rounded text-sm text-[#1C252E] font-medium hover:cursor-pointer 
-            ${
-              isSelected
-                ? "bg-[#E6F1FF] border-[#0373F3] text-[#025FCA]"
-                : "border-gray-200"
-            } 
-            hover:border-[#0373F3] transition`}
+                className={`w-full text-gray-700 border px-4 py-2 rounded text-sm font-medium hover:cursor-pointer 
+                  ${
+                    isSelected
+                      ? "bg-[#E6F1FF] border-[#0373F3] text-[#025FCA]"
+                      : "border-gray-200"
+                  }
+                  hover:border-[#0373F3] transition`}
               >
                 {label}
               </button>
@@ -124,14 +87,14 @@ const FilterSidebar = ({ filter, setFilter }: Props) => {
 
       <FilterSection title="Thương hiệu">
         <ul className="space-y-2 text-sm font-medium text-[#1C252E]">
-          {brandCategories.map((brand, index) => (
-            <li key={index} className="flex items-center">
+          {brandCategories.map((brand) => (
+            <li key={brand.name} className="flex items-center">
               <input
                 type="checkbox"
                 className="mr-2"
                 checked={filter.brands.includes(brand.name)}
-                onChange={() => toggleBrand(brand.name)}
-              />{" "}
+                onChange={() => toggleFilter("brands", brand.name)}
+              />
               {brand.name}
             </li>
           ))}
@@ -140,14 +103,14 @@ const FilterSidebar = ({ filter, setFilter }: Props) => {
 
       <FilterSection title="Năm sản xuất">
         <ul className="space-y-2 text-sm font-medium text-[#1C252E]">
-          {[2025, 2024, 2023, 2022, 2021, 2020, 2018].map((year) => (
+          {yearOptions.map((year) => (
             <li key={year} className="flex items-center">
               <input
                 type="checkbox"
                 className="mr-2"
                 checked={filter.years.includes(year)}
-                onChange={() => toggleYear(year)}
-              />{" "}
+                onChange={() => toggleFilter("years", year)}
+              />
               {year}
             </li>
           ))}
@@ -156,14 +119,14 @@ const FilterSidebar = ({ filter, setFilter }: Props) => {
 
       <FilterSection title="Xuất xứ">
         <ul className="space-y-2 text-sm font-medium text-[#1C252E]">
-          {["Nhật Bản", "Trung Quốc"].map((origin) => (
+          {originOptions.map((origin) => (
             <li key={origin} className="flex items-center">
               <input
                 type="checkbox"
                 className="mr-2"
                 checked={filter.origins.includes(origin)}
-                onChange={() => toggleOrigin(origin)}
-              />{" "}
+                onChange={() => toggleFilter("origins", origin)}
+              />
               {origin}
             </li>
           ))}

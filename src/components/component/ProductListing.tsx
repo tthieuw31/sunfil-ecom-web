@@ -8,18 +8,30 @@ import { sortProducts } from "@/utils/sortProducts";
 
 type ProductListingProps = {
   products: Product[];
+  primarySort: string;
+  setPrimarySort: (key: string) => void;
+  priceSort: "price-asc" | "price-desc" | "none";
+  setPriceSort: (key: "price-asc" | "price-desc" | "none") => void;
 };
 
-const ProductListing = ({ products }: ProductListingProps) => {
-  const [primarySort, setPrimarySort] = useState("relevance");
-  const [priceSort, setPriceSort] = useState<
-    "price-asc" | "price-desc" | "none"
-  >("none");
-
+const ProductListing = ({
+  products,
+  primarySort,
+  setPrimarySort,
+  priceSort,
+  setPriceSort,
+}: ProductListingProps) => {
   const sortedProducts = useMemo(() => {
     return sortProducts(products, primarySort, priceSort);
   }, [products, primarySort, priceSort]);
 
+  if (!products || products.length === 0) {
+    return (
+      <div className="text-center text-gray-500 py-8">
+        Không có sản phẩm nào để hiển thị.
+      </div>
+    );
+  }
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
@@ -33,6 +45,10 @@ const ProductListing = ({ products }: ProductListingProps) => {
           onPriceSortChange={setPriceSort}
         />
       </div>
+
+      <p className="text-sm text-gray-600 mb-2">
+        Hiển thị {sortedProducts.length} sản phẩm
+      </p>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {sortedProducts.length > 0 ? (

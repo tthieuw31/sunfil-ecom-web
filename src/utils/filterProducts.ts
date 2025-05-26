@@ -1,5 +1,4 @@
 import { Product } from "@/types/product";
-// import { ProductFilter } from "@/types/productFilter";
 import { ProductFilter } from "@/types/product";
 
 export function filterProducts(
