@@ -1,19 +1,8 @@
-import {
-  Camera,
-  ChevronDown,
-  Clock,
-  HandCoinsIcon,
-  Info,
-  Menu,
-  RefreshCcw,
-  Search,
-  ShoppingBag,
-  Truck,
-  UserCircle,
-} from "lucide-react";
+import { Camera, Search } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import CategoryDropdown from "./CategoryDropdown";
+import CartButton from "./button/CartButton";
 
 const NavBar: React.FC = () => {
   return (
@@ -27,7 +16,6 @@ const NavBar: React.FC = () => {
               width={250}
               height={111}
               alt="logo_sunfil"
-              // className="h-[111px] w-full object-contain"
             />
           </div>
 
@@ -50,7 +38,7 @@ const NavBar: React.FC = () => {
             </button>
           </div>
 
-          {/* Right Side: Search, Cart, User */}
+          {/* Search, Cart, User */}
           <div className="flex items-center justify-between w-full max-w-[320px]">
             <button className="flex items-center text-gray-700 hover:text-blue-600 hover:cursor-pointer">
               <img
@@ -61,15 +49,7 @@ const NavBar: React.FC = () => {
               />
               <p className="ml-2 text-[16px] font-medium">VI</p>
             </button>
-            <button className="flex items-center text-gray-700 hover:text-blue-600 hover:cursor-pointer">
-              <img
-                src={"/icon/Cart.svg"}
-                width={36}
-                height={36}
-                alt="UserCircle"
-              />
-              <p className="ml-1 text-[16px] font-medium">Giỏ hàng</p>
-            </button>
+            <CartButton />
             <button className="flex items-center text-gray-700 hover:text-blue-600 hover:cursor-pointer">
               <img
                 src={"/icon/UserCircle.svg"}
@@ -85,15 +65,7 @@ const NavBar: React.FC = () => {
         <div className="flex justify-between items-center space-x-10">
           <nav className="w-full">
             <div className="max-w-7xl mx-auto py-2 flex justify-between items-center text-sm text-gray-800">
-              {/* Left: Danh mục sản phẩm + các liên kết */}
               <div className="flex items-center space-x-6 font-medium">
-                {/* Danh mục button */}
-                {/* <button className="flex items-center bg-[#0155C6] text-white px-4 py-3 rounded-md hover:bg-blue-700">
-                  <Menu className="w-[18px] h-[18px] mr-2" />
-                  Danh Mục Sản Phẩm
-                  <ChevronDown className="w-4 h-4 ml-2" />
-                </button> */}
-
                 <CategoryDropdown />
 
                 {/* Navigation links */}
@@ -111,7 +83,6 @@ const NavBar: React.FC = () => {
                 </a>
               </div>
 
-              {/* Right: Các tiện ích */}
               <div className="flex items-center space-x-6 font-semibold">
                 <button className="flex items-center space-x-1 hover:text-blue-600 hover:cursor-pointer">
                   <img

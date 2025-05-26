@@ -1,50 +1,49 @@
-import { ChevronDown } from "lucide-react";
+"use client";
+
+import { useMemo, useState } from "react";
 import ProductCard from "./ProductCard";
+import SortController from "./filter/SortController";
+import { Product } from "@/types/product";
+import { sortProducts } from "@/utils/sortProducts";
 
-const dummyProducts = new Array(16).fill(null).map((_, i) => ({
-  id: i + 1,
-  name: "Lọc gió động cơ Air Filter – Chevrolet Colorado...",
-  image: "/image/oil_filter.png",
-  price: 299000,
-  originalPrice: 329000,
-  discount: 10,
-  type: "full",
-  hot: true,
-}));
+type ProductListingProps = {
+  products: Product[];
+};
 
-const ProductListing = () => {
+const ProductListing = ({ products }: ProductListingProps) => {
+  const [primarySort, setPrimarySort] = useState("relevance");
+  const [priceSort, setPriceSort] = useState<
+    "price-asc" | "price-desc" | "none"
+  >("none");
+
+  const sortedProducts = useMemo(() => {
+    return sortProducts(products, primarySort, priceSort);
+  }, [products, primarySort, priceSort]);
+
   return (
     <div>
-      {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold text-[#1C252E]">
           Danh sách sản phẩm
         </h2>
-        <div className="flex items-center space-x-3 text-sm">
-          <span className="font-medium text-[#1C252E]">Sắp xếp theo</span>
-          <button className="font-bold text-[#0373F3] bg-white border border-blue-600 rounded-lg px-3 py-1 hover:bg-blue-50 hover:cursor-pointer">
-            Liên quan
-          </button>
-          <button className="font-bold text-[#1C252E] bg-white hover:bg-blue-50 hover:cursor-pointer rounded-lg px-3 py-1">
-            Bán chạy
-          </button>
-          <button className="font-bold text-[#1C252E] bg-white hover:bg-blue-50 hover:cursor-pointer rounded-lg px-3 py-1">
-            Mới nhất
-          </button>
-          <button className="font-bold text-[#1C252E] bg-white hover:bg-blue-50 hover:cursor-pointer rounded-lg px-3 py-1">
-            Nổi bật
-          </button>
-          <button className="flex font-medium text-[#1C252E] px-3 py-1 hover:cursor-pointer">
-            Giá: Thấp → Cao <ChevronDown />
-          </button>
-        </div>
+        <SortController
+          primarySort={primarySort}
+          priceSort={priceSort}
+          onPrimarySortChange={setPrimarySort}
+          onPriceSortChange={setPriceSort}
+        />
       </div>
 
-      {/* Grid sản phẩm */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {dummyProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {sortedProducts.length > 0 ? (
+          sortedProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        ) : (
+          <div className="col-span-full text-center text-gray-500 py-8">
+            Không tìm thấy sản phẩm phù hợp.
+          </div>
+        )}
       </div>
     </div>
   );

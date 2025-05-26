@@ -14,7 +14,7 @@ type Product = {
 const ProductCard = ({ product }: { product: Product }) => {
   return (
     <div className="max-w-[252px] h-auto w-full bg-white rounded-lg p-4 shrink-0 drop-shadow-sm hover:drop-shadow-xl hover:cursor-pointer transition-shadow duration-500 ease-in-out">
-      <div className="flex items-center my-16 justify-center">
+      <div className="flex items-center justify-center">
         <Image
           src={product.image}
           alt={product.name}
