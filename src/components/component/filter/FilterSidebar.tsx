@@ -8,29 +8,64 @@ import { originOptions, priceOptions, yearOptions } from "@/types/common";
 
 type Props = {
   filter: ProductFilter;
-  setFilter: (filter: ProductFilter) => void;
+  setCategoriesInUrl: (categories: string[]) => void;
+  setBrandsInUrl: (brands: string[]) => void;
+  setOriginsInUrl: (origins: string[]) => void;
+  setYearsInUrl: (years: number[]) => void;
+  setPricesInUrl: (prices: [number, number][]) => void;
 };
 
-const FilterSidebar = ({ filter, setFilter }: Props) => {
-  type FilterField = Exclude<keyof ProductFilter, "prices">;
-
-  const toggleFilter = <T extends string | number>(
-    field: FilterField,
-    value: T
-  ) => {
-    const currentValues = filter[field] as T[];
-    const newValues = currentValues.includes(value)
-      ? currentValues.filter((v) => v !== value)
-      : [...currentValues, value];
-    setFilter({ ...filter, [field]: newValues });
+const FilterSidebar = ({
+  filter,
+  setCategoriesInUrl,
+  setBrandsInUrl,
+  setOriginsInUrl,
+  setYearsInUrl,
+  setPricesInUrl,
+}: Props) => {
+  // Toggle cho categories: cập nhật qua URL
+  const toggleCategory = (category: string) => {
+    const current = filter.categories;
+    const newCategories = current.includes(category)
+      ? current.filter((c) => c !== category)
+      : [...current, category];
+    setCategoriesInUrl(newCategories);
   };
 
+  // Toggle cho brands: cập nhật qua URL
+  const toggleBrand = (brand: string) => {
+    const current = filter.brands;
+    const newBrands = current.includes(brand)
+      ? current.filter((b) => b !== brand)
+      : [...current, brand];
+    setBrandsInUrl(newBrands);
+  };
+
+  // Toggle cho origins: cập nhật qua URL
+  const toggleOrigin = (origin: string) => {
+    const current = filter.origins;
+    const newOrigins = current.includes(origin)
+      ? current.filter((o) => o !== origin)
+      : [...current, origin];
+    setOriginsInUrl(newOrigins);
+  };
+
+  // Toggle cho years: cập nhật qua URL
+  const toggleYear = (year: number) => {
+    const current = filter.years;
+    const newYears = current.includes(year)
+      ? current.filter((y) => y !== year)
+      : [...current, year];
+    setYearsInUrl(newYears);
+  };
+
+  // Toggle cho prices: cập nhật qua URL
   const togglePrice = (min: number, max: number) => {
     const exists = filter.prices.some(([a, b]) => a === min && b === max);
     const newPrices: [number, number][] = exists
       ? filter.prices.filter(([a, b]) => !(a === min && b === max))
       : [...filter.prices, [min, max] as [number, number]];
-    setFilter({ ...filter, prices: newPrices });
+    setPricesInUrl(newPrices);
   };
 
   return (
@@ -52,7 +87,7 @@ const FilterSidebar = ({ filter, setFilter }: Props) => {
                 type="checkbox"
                 className="mr-2"
                 checked={filter.categories.includes(category.name)}
-                onChange={() => toggleFilter("categories", category.name)}
+                onChange={() => toggleCategory(category.name)}
               />
               {category.name}
             </li>
@@ -93,7 +128,7 @@ const FilterSidebar = ({ filter, setFilter }: Props) => {
                 type="checkbox"
                 className="mr-2"
                 checked={filter.brands.includes(brand.name)}
-                onChange={() => toggleFilter("brands", brand.name)}
+                onChange={() => toggleBrand(brand.name)}
               />
               {brand.name}
             </li>
@@ -109,7 +144,7 @@ const FilterSidebar = ({ filter, setFilter }: Props) => {
                 type="checkbox"
                 className="mr-2"
                 checked={filter.years.includes(year)}
-                onChange={() => toggleFilter("years", year)}
+                onChange={() => toggleYear(year)}
               />
               {year}
             </li>
@@ -125,7 +160,7 @@ const FilterSidebar = ({ filter, setFilter }: Props) => {
                 type="checkbox"
                 className="mr-2"
                 checked={filter.origins.includes(origin)}
-                onChange={() => toggleFilter("origins", origin)}
+                onChange={() => toggleOrigin(origin)}
               />
               {origin}
             </li>

@@ -1,5 +1,14 @@
 import { Product } from "@/types/product";
 
+/**
+ * Sorts an array of products based on primary and secondary criteria.
+ *
+ * @param products - The array of products to sort.
+ * @param primarySort - The primary sorting criterion (e.g., "best-selling", "highlight", "newest", "relevance").
+ * @param priceSort - The secondary sorting criterion for price ("price-asc", "price-desc", or "none").
+ * @returns A new array of sorted products.
+ */
+
 export const sortProducts = (
   products: Product[],
   primarySort: string,
@@ -19,7 +28,7 @@ export const sortProducts = (
       break;
     case "relevance":
     default:
-      break; // giữ nguyên thứ tự
+      break;
   }
 
   if (priceSort === "price-asc") {

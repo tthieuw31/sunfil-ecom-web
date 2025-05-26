@@ -1,26 +1,15 @@
+// ProductListing.tsx
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import ProductCard from "./ProductCard";
-import SortController from "./filter/SortController";
 import { Product } from "@/types/product";
+import { useSortParams } from "@/hooks/useSortParams";
 import { sortProducts } from "@/utils/sortProducts";
 
-type ProductListingProps = {
-  products: Product[];
-  primarySort: string;
-  setPrimarySort: (key: string) => void;
-  priceSort: "price-asc" | "price-desc" | "none";
-  setPriceSort: (key: "price-asc" | "price-desc" | "none") => void;
-};
+const ProductListing = ({ products }: { products: Product[] }) => {
+  const { primarySort, priceSort } = useSortParams();
 
-const ProductListing = ({
-  products,
-  primarySort,
-  setPrimarySort,
-  priceSort,
-  setPriceSort,
-}: ProductListingProps) => {
   const sortedProducts = useMemo(() => {
     return sortProducts(products, primarySort, priceSort);
   }, [products, primarySort, priceSort]);
@@ -32,20 +21,9 @@ const ProductListing = ({
       </div>
     );
   }
+
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-[#1C252E]">
-          Danh sách sản phẩm
-        </h2>
-        <SortController
-          primarySort={primarySort}
-          priceSort={priceSort}
-          onPrimarySortChange={setPrimarySort}
-          onPriceSortChange={setPriceSort}
-        />
-      </div>
-
       <p className="text-sm text-gray-600 mb-2">
         Hiển thị {sortedProducts.length} sản phẩm
       </p>

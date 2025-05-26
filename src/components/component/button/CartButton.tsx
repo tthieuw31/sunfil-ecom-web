@@ -5,6 +5,7 @@ import ProductCard from "../ProductCard";
 
 interface CartButtonProps {
   onClick?: () => void;
+  cartCount?: number;
 }
 
 const dummyProducts = new Array(1).fill(null).map((_, i) => ({
@@ -18,7 +19,7 @@ const dummyProducts = new Array(1).fill(null).map((_, i) => ({
   type: "full",
 }));
 
-const CartButton: React.FC<CartButtonProps> = ({ onClick }) => {
+const CartButton: React.FC<CartButtonProps> = ({ onClick, cartCount }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -32,6 +33,13 @@ const CartButton: React.FC<CartButtonProps> = ({ onClick }) => {
         type="button"
       >
         <img src="/icon/Cart.svg" width={36} height={36} alt="UserCircle" />
+
+        {cartCount && (
+          <span className="absolute -top-1 left-5 bg-[#FF5630] text-white text-[12px] font-bold px-1.5 py-1  rounded-full leading-none text-center">
+            {cartCount}
+          </span>
+        )}
+
         <p className="ml-1 text-[16px] font-medium">Giỏ hàng</p>
       </button>
 

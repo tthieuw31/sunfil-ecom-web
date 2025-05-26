@@ -1,5 +1,13 @@
 import { useEffect } from "react";
 
+/**
+ * Custom hook to implement infinite scroll functionality.
+ * It observes a loader element and triggers a callback when the element is in view.
+ *
+ * @param {React.RefObject<HTMLElement>} loaderRef - Reference to the loader element.
+ * @param {() => void} callback - Callback function to call when the loader is in view.
+ */
+
 export function useInfiniteScroll(
   loaderRef: React.RefObject<HTMLElement>,
   callback: () => void

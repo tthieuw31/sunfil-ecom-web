@@ -6,7 +6,7 @@ type Props = {
 const InfiniteLoader = ({ loaderRef, hasMore }: Props) => {
   return (
     <div
-      className="flex flex-col items-center justify-center py-6 min-h-[60px]"
+      className="flex flex-col items-center justify-center py-6"
       ref={loaderRef}
     >
       {hasMore ? (

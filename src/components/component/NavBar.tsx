@@ -49,7 +49,7 @@ const NavBar: React.FC = () => {
               />
               <p className="ml-2 text-[16px] font-medium">VI</p>
             </button>
-            <CartButton />
+            <CartButton cartCount={1} />
             <button className="flex items-center text-gray-700 hover:text-blue-600 hover:cursor-pointer">
               <img
                 src={"/icon/UserCircle.svg"}

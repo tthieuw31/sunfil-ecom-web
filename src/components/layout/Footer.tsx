@@ -8,7 +8,6 @@ const Footer = () => {
       style={{ backgroundImage: "url('/image/footer-bg.jpg')" }}
     >
       <div className="max-w-7xl w-full py-10 flex justify-between items-start gap-8">
-        {/* Cột 1: Công ty */}
         <div className="text-xl space-y-2">
           <h3 className="mb-10 font-semibold uppercase text-[#013065]">
             VIET HUNG AUTO PRODUCTION TRADING JOINT STOCK COMPANY
@@ -42,37 +41,50 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Cột 2: Sitemap */}
         <div>
           <h4 className="font-semibold text-2xl mb-3 text-[#013065]">
             Sitemap
           </h4>
           <ul className="space-y-2 text-[16px] text-[#637381]">
-            <li>About</li>
-            <li>Article</li>
-            <li>Cart</li>
-            <li>Contact</li>
+            <li>
+              <a href="#">About</a>
+            </li>
+            <li>
+              <a href="#">Article</a>
+            </li>
+            <li>
+              <a href="#">Cart</a>
+            </li>
+            <li>
+              <a href="#">Contact</a>
+            </li>
           </ul>
         </div>
 
-        {/* Cột 3: Legal */}
         <div>
           <h4 className="font-semibold text-2xl mb-3 text-[#013065]">Legal</h4>
           <ul className="space-y-2 text-[16px] text-[#637381]">
-            <li className="font-semibold text-[#013065]">— Privacy Policy</li>
-            <li>Cookie policy</li>
-            <li>Delivery policy</li>
-            <li>FAQs</li>
+            <li className="font-semibold text-[#013065]">
+              <a href="#">— Privacy Policy</a>
+            </li>
+            <li>
+              <a href="#">Cookie policy</a>
+            </li>
+            <li>
+              <a href="#">Delivery policy</a>
+            </li>
+            <li>
+              <a href="#">FAQs</a>
+            </li>
           </ul>
         </div>
 
-        {/* Cột 4: Download App */}
         <div>
           <h4 className="font-semibold text-2xl mb-3 text-[#013065]">
             Download App
           </h4>
           <div className="space-y-2">
-            <button className="bg-[#1C252E] py-[18px] px-5 rounded-xl flex w-full items-center justify-center hover:bg-[#001D52] transition">
+            <button className="bg-[#1C252E] py-[18px] px-5 rounded-xl flex w-full items-center justify-center hover:bg-[#001D52] transition hover:cursor-pointer">
               <img
                 src="/image/play-store-fill.png"
                 alt="Google Play"
@@ -84,7 +96,7 @@ const Footer = () => {
               </div>
             </button>
 
-            <button className="bg-[#0373F3] py-[18px] px-5 rounded-xl flex w-full items-center justify-center hover:bg-[#73a8cc] transition">
+            <button className="bg-[#0373F3] py-[18px] px-5 rounded-xl flex w-full items-center justify-center hover:bg-[#73a8cc] transition hover:cursor-pointer">
               <img
                 src="/image/play-store-fill.png"
                 alt="Google Play"
@@ -108,11 +120,6 @@ const Footer = () => {
               <ChevronDown className="w-4 h-4 ml-2" />
             </button>
           </div>
-          {/* <div className="mt-4">
-            <button className="w-8 h-8 rounded-full border border-[#001D52] flex items-center justify-center hover:bg-[#001D52] hover:text-white transition">
-              ↑
-            </button>
-          </div> */}
         </div>
       </div>
     </footer>
