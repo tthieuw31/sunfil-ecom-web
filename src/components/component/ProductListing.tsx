@@ -28,7 +28,7 @@ const ProductListing = ({ products }: { products: Product[] }) => {
         Hiển thị {sortedProducts.length} sản phẩm
       </p>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 md:grid-cols-4 gap-4">
         {sortedProducts.length > 0 ? (
           sortedProducts.map((product) => (
             <ProductCard key={product.id} product={product} />

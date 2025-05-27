@@ -13,7 +13,7 @@ const FeaturedProduct = () => {
         priority
       />
 
-      <div className="bg-[#025FCA] w-full rounded-b-xl p-12 ">
+      <div className="bg-[#025FCA] w-full rounded-b-xl md:p-12 p-5 ">
         <ProductSlider />
       </div>
     </div>

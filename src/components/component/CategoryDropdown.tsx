@@ -38,7 +38,7 @@ const CategoryDropdown = () => {
         setSelectedCategory(null);
       }}
     >
-      <button className="flex items-center bg-[#0155C6] text-white px-4 py-3 rounded-md hover:bg-blue-700">
+      <button className="flex w-full items-center bg-[#0155C6] text-white px-4 py-3 rounded-md hover:bg-blue-700">
         <Menu className="w-[18px] h-[18px] mr-2" />
         Danh Mục Sản Phẩm
         <ChevronDown
@@ -108,7 +108,7 @@ const CategoryDropdown = () => {
               </button>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 md:grid-cols-4 gap-4">
               {dummyProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

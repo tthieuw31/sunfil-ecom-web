@@ -23,7 +23,6 @@ const FilterSidebar = ({
   setYearsInUrl,
   setPricesInUrl,
 }: Props) => {
-  // Toggle cho categories: cập nhật qua URL
   const toggleCategory = (category: string) => {
     const current = filter.categories;
     const newCategories = current.includes(category)
@@ -32,7 +31,6 @@ const FilterSidebar = ({
     setCategoriesInUrl(newCategories);
   };
 
-  // Toggle cho brands: cập nhật qua URL
   const toggleBrand = (brand: string) => {
     const current = filter.brands;
     const newBrands = current.includes(brand)
@@ -41,7 +39,6 @@ const FilterSidebar = ({
     setBrandsInUrl(newBrands);
   };
 
-  // Toggle cho origins: cập nhật qua URL
   const toggleOrigin = (origin: string) => {
     const current = filter.origins;
     const newOrigins = current.includes(origin)
@@ -50,7 +47,6 @@ const FilterSidebar = ({
     setOriginsInUrl(newOrigins);
   };
 
-  // Toggle cho years: cập nhật qua URL
   const toggleYear = (year: number) => {
     const current = filter.years;
     const newYears = current.includes(year)
@@ -59,7 +55,6 @@ const FilterSidebar = ({
     setYearsInUrl(newYears);
   };
 
-  // Toggle cho prices: cập nhật qua URL
   const togglePrice = (min: number, max: number) => {
     const exists = filter.prices.some(([a, b]) => a === min && b === max);
     const newPrices: [number, number][] = exists
@@ -70,7 +65,7 @@ const FilterSidebar = ({
 
   return (
     <div className="space-y-6 bg-white py-3 rounded-lg shadow-md">
-      <div className="flex w-full mb-0 p-3 border-b border-[#919EAB33] items-center">
+      <div className="hidden md:flex w-full mb-0 p-3 border-b border-[#919EAB33] items-center">
         <img
           src="/image/filter-icon.png"
           alt="Filter Icon"

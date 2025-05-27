@@ -32,10 +32,10 @@ const CartButton: React.FC<CartButtonProps> = ({ onClick, cartCount }) => {
         className="flex items-center text-gray-700 hover:text-blue-600 hover:cursor-pointer"
         type="button"
       >
-        <img src="/icon/Cart.svg" width={36} height={36} alt="UserCircle" />
+        <img src="/icon/Cart.svg" alt="UserCircle" className="w-6 h-6 md:w-9 md:h-9" />
 
         {cartCount && (
-          <span className="absolute -top-1 left-5 bg-[#FF5630] text-white text-[12px] font-bold px-1.5 py-1  rounded-full leading-none text-center">
+          <span className="hidden md:absolute -top-1 left-5 bg-[#FF5630] text-white text-[12px] font-bold px-1.5 py-1  rounded-full leading-none text-center">
             {cartCount}
           </span>
         )}
