@@ -1,6 +1,7 @@
 "use client";
+export const dynamic = "force-dynamic";
 
-import React, { FC, useMemo, useRef, useState } from "react";
+import React, { FC, Suspense, useMemo, useRef, useState } from "react";
 import { Product } from "@/types/product";
 import { mockProducts } from "./api/mockProducts_full";
 
@@ -23,7 +24,7 @@ import LocationSection from "@/components/layout/LocationSection";
 
 const PAGE_SIZE = 16;
 
-const HomePage: FC = () => {
+const HomePageContent: FC = () => {
   const { filter, setBrands, setCategories, setOrigins, setYears, setPrices } =
     useProductQueryParams();
   const { primarySort, priceSort } = useSortParams();
@@ -138,5 +139,11 @@ const HomePage: FC = () => {
     </div>
   );
 };
+
+const HomePage: FC = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <HomePageContent />
+  </Suspense>
+);
 
 export default HomePage;

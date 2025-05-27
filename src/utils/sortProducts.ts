@@ -14,7 +14,7 @@ export const sortProducts = (
   primarySort: string,
   priceSort: "price-asc" | "price-desc" | "none"
 ): Product[] => {
-  let sorted = [...products];
+  const sorted = [...products];
 
   switch (primarySort) {
     case "best-selling":
