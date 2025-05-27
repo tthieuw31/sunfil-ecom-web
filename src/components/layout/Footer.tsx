@@ -4,13 +4,12 @@ import Image from "next/image";
 const Footer = () => {
   return (
     <footer
-      className="flex w-full justify-center items-center bg-cover bg-center bg-no-repeat text-[#001D52] py-20"
+      className="flex w-full justify-center items-center bg-cover bg-center bg-no-repeat text-[#001D52] py-10 md:py-20"
       style={{ backgroundImage: "url('/image/footer-bg.jpg')" }}
     >
-      <div className="max-w-7xl w-full py-10 flex justify-between items-start gap-8">
-        {/* Cột 1: Công ty */}
-        <div className="text-xl space-y-2">
-          <h3 className="mb-10 font-semibold uppercase text-[#013065]">
+      <div className="w-full max-w-7xl flex flex-col md:flex-row md:justify-between md:items-start md:gap-14 px-4 md:px-0">
+        <div className="text-base md:text-xl space-y-2 mb-8 md:mb-0">
+          <h3 className="font-semibold uppercase text-[#013065] text-lg md:text-xl">
             VIET HUNG AUTO PRODUCTION TRADING JOINT STOCK COMPANY
           </h3>
           <div className="flex space-x-2">
@@ -37,82 +36,98 @@ const Footer = () => {
             <img
               src="/image/BoCongThuong.png"
               alt="Bộ Công Thương"
-              className="w-[200px] h-auto"
+              className="w-[120px] md:w-[200px] h-auto"
             />
           </div>
         </div>
 
-        {/* Cột 2: Sitemap */}
-        <div>
-          <h4 className="font-semibold text-2xl mb-3 text-[#013065]">
-            Sitemap
-          </h4>
-          <ul className="space-y-2 text-[16px] text-[#637381]">
-            <li>About</li>
-            <li>Article</li>
-            <li>Cart</li>
-            <li>Contact</li>
-          </ul>
-        </div>
+        <div className="flex justify-between md:space-x-10">
+          <div className="mb-8 md:mb-0">
+            <h4 className="font-semibold text-lg md:text-2xl mb-3 text-[#013065]">
+              Sitemap
+            </h4>
+            <ul className="space-y-2 text-[15px] md:text-[16px] text-[#637381]">
+              <li>
+                <a href="#">About</a>
+              </li>
+              <li>
+                <a href="#">Article</a>
+              </li>
+              <li>
+                <a href="#">Cart</a>
+              </li>
+              <li>
+                <a href="#">Contact</a>
+              </li>
+            </ul>
+          </div>
 
-        {/* Cột 3: Legal */}
-        <div>
-          <h4 className="font-semibold text-2xl mb-3 text-[#013065]">Legal</h4>
-          <ul className="space-y-2 text-[16px] text-[#637381]">
-            <li className="font-semibold text-[#013065]">— Privacy Policy</li>
-            <li>Cookie policy</li>
-            <li>Delivery policy</li>
-            <li>FAQs</li>
-          </ul>
+          <div className="mb-8 md:mb-0">
+            <h4 className="font-semibold text-lg md:text-2xl mb-3 text-[#013065]">
+              Legal
+            </h4>
+            <ul className="space-y-2 text-[15px] md:text-[16px] text-[#637381]">
+              <li className="font-semibold text-[#013065]">
+                <a href="#">— Privacy Policy</a>
+              </li>
+              <li>
+                <a href="#">Cookie policy</a>
+              </li>
+              <li>
+                <a href="#">Delivery policy</a>
+              </li>
+              <li>
+                <a href="#">FAQs</a>
+              </li>
+            </ul>
+          </div>
         </div>
-
-        {/* Cột 4: Download App */}
-        <div>
-          <h4 className="font-semibold text-2xl mb-3 text-[#013065]">
+        <div className="flex-1 min-w-[180px]">
+          <h4 className="font-semibold text-lg md:text-2xl mb-3 text-[#013065]">
             Download App
           </h4>
           <div className="space-y-2">
-            <button className="bg-[#1C252E] py-[18px] px-5 rounded-xl flex w-full items-center justify-center hover:bg-[#001D52] transition">
+            <button className="bg-[#1C252E] py-3 md:py-[18px] px-4 md:px-5 rounded-xl flex w-full items-center justify-center hover:bg-[#001D52] transition hover:cursor-pointer">
               <img
                 src="/image/play-store-fill.png"
                 alt="Google Play"
-                className="w-[30px] h-auto"
+                className="w-[24px] md:w-[30px] h-auto"
               />
-              <div className="text-white text-start ml-3">
-                <p className="text-sm font-normal">Get it on</p>
-                <p className="text-[16px] font-semibold">Google Play Store</p>
+              <div className="text-white text-start ml-2 md:ml-3">
+                <p className="text-xs md:text-sm font-normal">Get it on</p>
+                <p className="text-[15px] md:text-[16px] font-semibold">
+                  Google Play Store
+                </p>
               </div>
             </button>
 
-            <button className="bg-[#0373F3] py-[18px] px-5 rounded-xl flex w-full items-center justify-center hover:bg-[#73a8cc] transition">
+            <button className="bg-[#0373F3] py-3 md:py-[18px] px-4 md:px-5 rounded-xl flex w-full items-center justify-center hover:bg-[#73a8cc] transition hover:cursor-pointer">
               <img
                 src="/image/play-store-fill.png"
                 alt="Google Play"
-                className="w-[30px] h-auto"
+                className="w-[24px] md:w-[30px] h-auto"
               />
-              <div className="text-white text-start ml-3">
-                <p className="text-sm font-normal">Download from</p>
-                <p className="text-[16px] font-semibold">Apple App Store</p>
+              <div className="text-white text-start ml-2 md:ml-3">
+                <p className="text-xs md:text-sm font-normal">Download from</p>
+                <p className="text-[15px] md:text-[16px] font-semibold">
+                  Apple App Store
+                </p>
               </div>
             </button>
           </div>
           <div className="mt-4 flex items-center space-x-3">
-            <button className="flex items-center text-gray-700 hover:text-blue-600 hover:cursor-pointer">
+            <button className="hidden md:flex items-center text-gray-700 hover:text-blue-600 hover:cursor-pointer">
               <img
                 src="/icon/ico-country-c-vietnam.svg"
-                width={36}
-                height={36}
+                width={28}
+                height={28}
                 alt="Vietnam"
+                className="md:w-[36px] md:h-[36px]"
               />
-              <p className="ml-2 text-[16px] font-medium">VI</p>
+              <p className="ml-2 text-[15px] md:text-[16px] font-medium">VI</p>
               <ChevronDown className="w-4 h-4 ml-2" />
             </button>
           </div>
-          {/* <div className="mt-4">
-            <button className="w-8 h-8 rounded-full border border-[#001D52] flex items-center justify-center hover:bg-[#001D52] hover:text-white transition">
-              ↑
-            </button>
-          </div> */}
         </div>
       </div>
     </footer>

@@ -8,13 +8,18 @@ interface BreadcrumbItem {
 }
 
 interface BreadcrumbProps {
-  items: BreadcrumbItem[];
+  items?: BreadcrumbItem[];
 }
+
+const breadcrumbItems = [
+  { label: "Trang chủ", href: "/" },
+  { label: "Sản phẩm", active: true },
+];
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
   return (
-    <nav className="text-sm text-gray-500 flex items-center space-x-1">
-      {items.map((item, index) => (
+    <nav className="text-sm text-gray-500 flex items-center space-x-1 mb-5">
+      {breadcrumbItems.map((item, index) => (
         <div className="flex items-center" key={index}>
           {index > 0 && <ChevronRight className="w-4 h-4 mx-1 text-gray-600" />}
 
