@@ -8,3 +8,17 @@ export const priceOptions = [
 export const yearOptions = [2025, 2024, 2023, 2022, 2021, 2020, 2018];
 
 export const originOptions = ["Nhật Bản", "Trung Quốc"];
+
+export interface SortOption {
+  key: string;
+  label: string;
+}
+
+export const SORT_OPTIONS: SortOption[] = [
+  { key: "relevance", label: "Liên quan" },
+  { key: "best-selling", label: "Bán chạy" },
+  { key: "newest", label: "Mới nhất" },
+  { key: "highlight", label: "Nổi bật" },
+];
+
+export type PriceSort = "none" | "price-asc" | "price-desc";

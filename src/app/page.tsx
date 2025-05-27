@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import React, { FC, useMemo, useRef, useState } from "react";
+import { Product } from "@/types/product";
 import { mockProducts } from "./api/mockProducts_full";
 
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
@@ -20,40 +21,50 @@ import InfiniteLoader from "@/components/component/InfiniteLoader";
 import ServiceHighlights from "@/components/layout/ServiceHighlights";
 import LocationSection from "@/components/layout/LocationSection";
 
-export default function Home() {
+const PAGE_SIZE = 16;
+
+const HomePage: FC = () => {
   const { filter, setBrands, setCategories, setOrigins, setYears, setPrices } =
     useProductQueryParams();
   const { primarySort, priceSort } = useSortParams();
-  const [showMobileFilter, setShowMobileFilter] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(16);
+
+  // Mobile filter drawer
+  const [showMobileFilter, setShowMobileFilter] = useState<boolean>(false);
+
+  // Visible count for infinite scroll
+  const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
   const loaderRef = useRef<HTMLDivElement>(null!);
 
-  const filteredProducts = useMemo(
+  // Filter & sort data
+  const filtered = useMemo<Product[]>(
     () => filterProducts(mockProducts, filter),
     [filter]
   );
-
-  const sortedProducts = useMemo(
-    () => sortProducts(filteredProducts, primarySort, priceSort),
-    [filteredProducts, primarySort, priceSort]
+  const sorted = useMemo<Product[]>(
+    () => sortProducts(filtered, primarySort, priceSort),
+    [filtered, primarySort, priceSort]
   );
 
   useInfiniteScroll(loaderRef, () => {
-    setVisibleCount((prev) => Math.min(prev + 16, sortedProducts.length));
+    setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, sorted.length));
   });
 
-  const productsToShow = sortedProducts.slice(0, visibleCount);
-  const hasMore = visibleCount < sortedProducts.length;
+  const productsToShow = sorted.slice(0, visibleCount);
+  const hasMore = visibleCount < sorted.length;
+
+  const openMobileFilter = () => setShowMobileFilter(true);
+  const closeMobileFilter = () => setShowMobileFilter(false);
 
   return (
     <div className="w-full">
       <NavBar />
       <main className="bg-[#F4F6F8]">
-        <div className="flex w-full justify-center">
-          <div className="px-2 md:px-0 max-w-7xl w-full pt-4">
+        <div className="flex justify-center">
+          <div className="max-w-7xl w-full px-2 md:px-0 pt-4">
             <Breadcrumb />
             <FeaturedProduct />
-            <section className="mt-7 md:flex gap-4">
+
+            <section className="mt-7 flex flex-col md:flex-row gap-4">
               <aside className="hidden md:block w-1/4">
                 <FilterSidebar
                   filter={filter}
@@ -65,41 +76,42 @@ export default function Home() {
                 />
               </aside>
 
-              <div className="flex w-full justify-end md:hidden mb-4">
+              {/* Mobile filter button */}
+              <div className="md:hidden mb-4 flex justify-end">
                 <button
-                  onClick={() => setShowMobileFilter(true)}
-                  className="flex px-4 py-2 rounded-md font-medium border border-[#919EAB33] bg-white shadow-md hover:shadow-lg transition-shadow duration-300 items-center text-[#1C252E] hover:text-[#0373F3] hover:cursor-pointer"
+                  onClick={openMobileFilter}
+                  className="flex items-center px-4 py-2 font-medium border border-[#919EAB33] bg-white shadow-md rounded-md hover:shadow-lg transition-shadow"
                 >
                   <img
                     src="/image/filter-icon.png"
                     alt="Filter Icon"
-                    className="w-auto h-auto mr-2"
+                    className="mr-2"
                   />
-                  <h2 className="text-xl  text-[#0373F3]">Bộ Lọc</h2>
+                  <span className="text-xl text-[#0373F3]">Bộ Lọc</span>
                 </button>
               </div>
 
+              {/* Mobile drawer overlay & panel */}
               {showMobileFilter && (
                 <div
                   className="fixed inset-0 bg-black opacity-50 z-40"
-                  onClick={() => setShowMobileFilter(false)}
+                  onClick={closeMobileFilter}
                 />
               )}
               <div
-                className={`fixed top-0 right-0 w-4/5 h-full bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out 
-                ${
+                className={`fixed top-0 right-0 z-50 h-full w-4/5 bg-white shadow-lg transform transition-transform ease-in-out duration-300 md:hidden ${
                   showMobileFilter ? "translate-x-0" : "translate-x-full"
-                } z-50 md:hidden`}
+                }`}
               >
-                <div className="flex justify-start items-center p-4 border-b">
+                <div className="flex items-center p-4 border-b">
                   <button
-                    onClick={() => setShowMobileFilter(false)}
-                    className="text-gray-600 hover:text-black text-2xl font-bold"
+                    onClick={closeMobileFilter}
+                    className="text-2xl font-bold text-gray-600 hover:text-black"
                   >
                     ×
                   </button>
                 </div>
-                <div className="overflow-y-auto max-h-[calc(100vh-64px)]">
+                <div className="overflow-y-auto max-h-[calc(100vh-64px)] p-4">
                   <FilterSidebar
                     filter={filter}
                     setCategoriesInUrl={setCategories}
@@ -111,16 +123,12 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="md:hidden">
-                <SortController />
-                <ProductListing products={productsToShow} />
-              </div>
-
-              <div className="hidden md:block w-3/4">
+              <div className="w-full md:w-3/4">
                 <SortController />
                 <ProductListing products={productsToShow} />
               </div>
             </section>
+
             <InfiniteLoader loaderRef={loaderRef} hasMore={hasMore} />
             <ServiceHighlights />
           </div>
@@ -129,4 +137,6 @@ export default function Home() {
       </main>
     </div>
   );
-}
+};
+
+export default HomePage;

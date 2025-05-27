@@ -1,45 +1,51 @@
-// ProductListing.tsx
 "use client";
 
-import { useMemo } from "react";
+import React, { FC, useMemo } from "react";
 import ProductCard from "./ProductCard";
 import { Product } from "@/types/product";
 import { useSortParams } from "@/hooks/useSortParams";
 import { sortProducts } from "@/utils/sortProducts";
 
-const ProductListing = ({ products }: { products: Product[] }) => {
+interface ProductListingProps {
+  products: Product[];
+}
+
+const EmptyState: FC<{ message: string }> = ({ message }) => (
+  <div className="col-span-full text-center text-gray-500 py-8">{message}</div>
+);
+
+const ProductsGrid: FC<{ products: Product[] }> = ({ products }) => (
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {products.map((product) => (
+      <ProductCard key={product.id} product={product} />
+    ))}
+  </div>
+);
+
+const ProductListing: FC<ProductListingProps> = ({ products }) => {
   const { primarySort, priceSort } = useSortParams();
 
-  const sortedProducts = useMemo(() => {
-    return sortProducts(products, primarySort, priceSort);
-  }, [products, primarySort, priceSort]);
+  const sortedProducts = useMemo<Product[]>(
+    () => sortProducts(products, primarySort, priceSort),
+    [products, primarySort, priceSort]
+  );
 
   if (!products || products.length === 0) {
-    return (
-      <div className="text-center text-gray-500 py-8">
-        Không có sản phẩm nào để hiển thị.
-      </div>
-    );
+    return <EmptyState message="Không có sản phẩm nào để hiển thị." />;
   }
 
   return (
-    <div>
+    <>
       <p className="text-sm text-gray-600 mb-2">
         Hiển thị {sortedProducts.length} sản phẩm
       </p>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 md:grid-cols-4 gap-4">
-        {sortedProducts.length > 0 ? (
-          sortedProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))
-        ) : (
-          <div className="col-span-full text-center text-gray-500 py-8">
-            Không tìm thấy sản phẩm phù hợp.
-          </div>
-        )}
-      </div>
-    </div>
+      {sortedProducts.length > 0 ? (
+        <ProductsGrid products={sortedProducts} />
+      ) : (
+        <EmptyState message="Không tìm thấy sản phẩm phù hợp." />
+      )}
+    </>
   );
 };
 
